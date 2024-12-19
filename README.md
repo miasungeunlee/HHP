@@ -13,65 +13,41 @@
 
 ## Installation with Conda
 ````
-conda create -y -n AMOA-SEQ -c bioconda seqkit fasttree muscle blast diamond trimal diamond=0.9.19 cd-hit cutadapt iqtree
-source activate AMOA-SEQ
-pip install biopython
-pip install pandas
+conda create -y -n HHP -c bioconda kaiju prodigal diamond
+conda activate HHP
 ````
 
-## DADA2 tool installation 
+## Download HHP directory
 ````
-https://benjjneb.github.io/dada2/dada-installation.html
-````
-
-## Download AMOA-SEQ directory
-````
-git clone https://github.com/miasungeunlee/AMOA-SEQ.git
-cd AMOA-SEQ
-chmod u+x AMOA-SEQ.sh # make the script executable
+git clone https://github.com/miasungeunlee/HHP.git
+cd HHP
+chmod u+x HHP.sh # make the script executable
 ````
 
-## AMOA sequence databases
-•	````AMO_database.faa````: all AMOA sequences downloaded from JGI IMG (https://img.jgi.doe.gov/) and NCBI (https://www.ncbi.nlm.nih.gov/). List of accessions and detail of the gene set were shown in AMO_database.tsv 
+## Refseq protein sequences databases
+•	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created
 
-•	````ref.AOA.amoA.faa````: curated archaeal amoA sequences with defined lineage from Alves et al. 2018
+•	````names.dmp & nodes.dmp````:
 
-•	````ref.COM.amoA.faa````: curated archaeal amoA sequences from Palomo et al. 2022
-
-•	````ref.AOB.amoA.faa````: curated Nitrosospira amoA sequences from Aigle et al. 2019 and Nitrosomonas amoA sequences were downloaded from JGI IMG site and curated (Lee et al. 2023) 
+•	````prot.accession2taxid````:
 
 ## Quick run
 ````
-source activate AMOA-SEQ
-sh AMOA-SEQ.sh [-h help] [-e output_directory_name] [-i fastq_directory] [-f forward_primer] [-r reverse_primer] [-m minimum_read_length] [-l truncation_read_length] [-c just_concatenating_option] [-t expected merged sequence_length] [-t expected_merged_sequence_length] [-n number_nucleotide] [-o AO_type]
+conda activate HHP
+sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o working_directory] [-t threads] 
 
 ### option variable explanation ###
 -h: help
--e: output directory name (e.g. output)
 -i: fastq.gz file path (e.g. /home/ampere/slee/COMICON-Projet-2022/   # Full pathway for running Rscript) 
-# fastq file must end with either "_R1_001.fastq.gz" or "_R2_001.fastq.gz" pattern (directly from MiSeq sequencing) #
--f: forward primer (e.g. ATGGTCTGGCTWAGACG for AOA forward primer, GGGGTTTCTACTGGTGGT for AOB forward primer and AGGNGAYTGGGAYTTCTGG for COMAMMOX forword primer)
--r: reverse primer (e.g. GCCATCCATCTGTATGTCCA for AOA reverse primer, CCCCTCKGSAAAGCCTTCTTC for AOB reverse primer and CGGACAWABRTGAABCCCAT for COMAMMOX reverse primer)
--m: minimum read length (e.g. 200 bp for AOA, 232 bp for AOB, 204 bp for COMMAMMOX in order to overlap between R1 and R2)
--l: truncation read length (e.g. 200 bp for AOA, 232 bp for AOB, 204 bp for COMMAMMOX)
--c: TRUE for AOA AMOA, just concatenating forward and reverse reads, for other AMOA, merging forward and reverse reads are possible, use FALSE option
--t: expected merged sequence length (410 bp for AOA, 452 bp for AOB and 396 bp for COMAMMOX; these lengths are after removing the primer lengths)
--n: number of nucleotides to be removed prior to correct translation (first nucleotide & two first nucleotides were removed from AOA & AOB ASV sequences)
--o: organism; It can be either AOA, AOB, or COM, depending on your dataset.
+-d: database directory path (e.g. /home/ampere/slee/COMICON-Projet-2022/   # Full pathway 
+-o: working & output directory name (e.g. output)
+-t: number of CPUs
 ````
 
-### Example of the test run AMOA-SEQ.sh for AOA, AOB and Comammox AMOA amplicon sequencing:
+### Example of the test run sh HHP.sh:
 ````
-source activate AMOA-SEQ
-# For Miseq reagent kit V3, 2 x 300 bp
-sh AMOA-SEQ.sh -e AOA-output -i /home/ampere/slee/AMOA-SEQ/TEST-AOA-Fastq -f ATGGTCTGGCTWAGACG -r GCCATCCATCTGTATGTCCA -m 200 -l 200 -c TRUE -t 410 -n 2 -o AOA
-sh AMOA-SEQ.sh -e AOB-output -i /home/ampere/slee/AMOA-SEQ/TEST-AOB-Fastq -f GGGGTTTCTACTGGTGGT -r CCCCTCKGSAAAGCCTTCTTC -m 232 -l 232 -c FALSE -t 452 -n 3 -o AOB
-sh AMOA-SEQ.sh -e COM-output -i /home/ampere/slee/AMOA-SEQ/TEST-COM-Fastq -f AGGNGAYTGGGAYTTCTGG -r CGGACAWABRTGAABCCCAT -m 204 -l 204 -c FALSE -t 396 -n 1 -o COM
-
-# For Miseq reagent kit V2, 2 x 250 bp
-sh AMOA-SEQ.sh -e AOA-output -i /home/ampere/slee/AMOA-SEQ/TEST-AOA-Fastq -f ATGGTCTGGCTWAGACG -r GCCATCCATCTGTATGTCCA -m 200 -l 200 -c TRUE -t 410 -n 2 -o AOA
-sh AMOA-SEQ.sh -e AOB-output -i /home/ampere/slee/AMOA-SEQ/TEST-AOB-Fastq -f GGGGTTTCTACTGGTGGT -r CCCCTCKGSAAAGCCTTCTTC -m 200 -l 200 -c TRUE -t 410 -n 3 -o AOB
-sh AMOA-SEQ.sh -e COM-output -i /home/ampere/slee/AMOA-SEQ/TEST-COM-Fastq -f AGGNGAYTGGGAYTTCTGG -r CGGACAWABRTGAABCCCAT -m 204 -l 204 -c FALSE -t 396 -n 1 -o COM
+conda activate HHP
+sh HHP.sh -i /store/ampere/gnicol/HPP/TEST-fasta/virus-contig.fasta -d /store/ampere/gnicol/test-database -o ouput_directory
 ````
 
 ### What does AMOA-SEQ.sh script do?
