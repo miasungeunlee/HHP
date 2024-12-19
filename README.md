@@ -9,7 +9,6 @@
   ##################################
 ````
 **HPP** Predicting host information from virus gene annotation
-````
 
 ## Installation with Conda
 ````
@@ -50,7 +49,7 @@ conda activate HHP
 sh HHP.sh -i /store/ampere/gnicol/HPP/TEST-fasta/virus-contig.fasta -d /store/ampere/gnicol/test-database -o ouput_directory
 ````
 
-### What does AMOA-SEQ.sh script do?
+### What does HHP.sh script do?
 
 **Step 0)** Making AMOA databases ````AMO.dmnd```` using Diamond tool (Buchfink et al. 2021) in ````$exp_name```` working directory.
 
