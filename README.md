@@ -14,6 +14,7 @@
 ````
 conda create -y -n HHP -c bioconda kaiju prodigal diamond
 conda activate HHP
+pip install pandas
 ````
 
 ## Download HHP directory
