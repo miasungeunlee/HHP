@@ -114,7 +114,7 @@ echo "==========================================================================
 
 #####################################################
 echo "============================================================================================";
-echo "### STEP 2. Adding the taxonomic rank using the prot_accession2taxid and Kaiju ###"
+echo "### STEP 3. Adding the taxonomic rank using the prot_accession2taxid and Kaiju ###"
 cut -f1,2,12 best-hit-nr.diamond.${base_name}.tsv > prot_ids.tsv
 python $working_directory/prot.accession2taxid.py -t $data_directory/prot.accession2taxid -i prot_ids.tsv -o taxids.tsv
 mkdir GENE_ANNOTATION
@@ -134,11 +134,11 @@ sed 's/_[0-9]*$//' ID.txt > tmp && mv tmp ID.txt
 paste ID.txt kaiju.names.out > Virus-ID-kaiju.names.out
 mv kaiju.names.out ./GENE_ANNOTATION
 rm ID.txt
-echo "### STEP 2. Done ###"
+echo "### STEP 3. Done ###"
 echo "============================================================================================";
 
 echo "============================================================================================";
-echo "### STEP 3. Host identification ###"
+echo "### STEP 4. Host prediction ###"
 mkdir tmps
 mv Virus-ID-kaiju.names.out ./tmps
 cd tmps
@@ -198,7 +198,9 @@ sed 's/sort-//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homolo
 sed 's/\.txt//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homologs-based-host-prediction-genus.txt
 rm New_* sort-*
 cp Homologs-based-host-prediction-genus.txt $working_directory
-cd ..
+cp Homologs-based-host-prediction-genus.txt $working_directory
+python $working_directory/concatenating_files.py
 
-echo "### STEP 3. Done ###"
+echo "### STEP 4. Host prediction done ###"
+echo "### HPP Pipeline successfully finished :) ###"
 echo "============================================================================================";
