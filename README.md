@@ -21,7 +21,7 @@ pip install pandas
 ````
 git clone https://github.com/miasungeunlee/HHP.git
 cd HHP
-chmod u+x *.sh # make the script executable
+chmod u+x *.sh
 ````
 
 ## Download the Refseq prokaryotic protein sequence databases
@@ -32,7 +32,7 @@ sh download_database.sh [-d database_directory]
 ### Example of the test run sh download_database.sh:
 ````
 conda activate HHP
-sh download_database.sh -d /store/ampere/slee/HHP_database # It takes 
+sh download_database.sh -d /store/ampere/slee/HHP_database 
 ````
 
 •	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created
