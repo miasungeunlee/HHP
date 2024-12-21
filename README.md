@@ -24,7 +24,11 @@ cd HHP
 chmod u+x HHP.sh # make the script executable
 ````
 
-## Refseq protein sequences databases
+## Download the Refseq prokaryotic protein sequence databases
+````
+sh download_databases.sh -o /store/ampere/slee/HHP_database
+````
+
 •	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created
 
 •	````names.dmp & nodes.dmp````:
