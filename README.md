@@ -45,13 +45,13 @@ sh download_database.sh -d /store/ampere/slee/HHP_database
 ## Quick run
 ````
 conda activate HHP
-sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o working_directory] [-t threads] 
+sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o output_directory] [-t threads] 
 
 ### option variable explanation ###
 -h: help
 -i: virus genome fasta file path (e.g. /store/ampere/slee/HPP/test-genomes   # Full pathway
 -d: database directory path (e.g. /store/ampere/slee/HHP_database   # Full pathway 
--o: working & output directory name (e.g. HHP_output)
+-o: output_directory name (e.g. HHP_output)
 -t: number of CPUs
 ````
 
@@ -64,29 +64,38 @@ sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/am
 
 ### What does HHP.sh script do?
 
-**Step 0)** Making AMOA databases ````AMO.dmnd```` using Diamond tool (Buchfink et al. 2021) in ````$exp_name```` working directory.
+**Step 1)** Gene prediction using Prodigal with -p meta option (Hyatt et al. 2010) in ````$output_directory/GENE_PREDICTION````.
 
-**Step 1)** Running the DADA2 pipeline ````dada_AMO.R```` to generate the amplicon sequence variant (ASV) sequences ````out.DADA2.$organism.ASVs.fa```` and ASV count table ````out.DADA2.$organism.ASVs.counts.tsv```` across different samples in $exp_name working directory.
+**Step 2)** Gene annotation using Diamond blastp against NCBI Refseq bacterial & archaeal proteins database in ````$output_directory/GENE_ANNOTATION```` .
 
-**Step 2)** Select the AMOA ASV sequences according to expected amplicon size using Seqkit tool (Shen et al. 2016). Generating correct ASV sequences ````out.DADA2.correct-size.$organism.ASVs.fa```` and ASV count table ````out.DADA2.correct-size.$organism.ASVs.counts.tsv```` across different samples. 
+**Step 3)** Getting taxid from prot_accession number using prot_accession2taxid file and adding the taxonomic rank using Kaiju (XXX) in ````$output_directory/GENE_ANNOTATION````. 
 
-**Step 3)** Correct AmoA sequence curation using the AMOA database (NR & IMG-JGI) with Diamond blastx (Buchfink et al. 2021) and manually curated conserved AMOA protein sequences using python scripts. Prior to correct translation, first nucleotide & two first nucleotides are removed from AOA & AOB ASV sequences. 
-Generating annotated ASV sequences (nucleotide sequence, protein sequence) ````annotated.DADA2.{organism}.ASVs.fa````, ````annotated.DADA2.{organism}.ASVs.faa````, and AMOA-SEQ curated ASV sequences (nucleotide sequence, protein sequence) ````AMOA-SEQ-curated.$organism.ASVs.fa````,  ````AMOA-SEQ-curated.$organism.ASVs.faa````, and the ASV count table ````annotated.{organism}.ASVs.counts.tsv````, ````AMOA-SEQ-curated.{organism}.ASVs.counts.tsv```` across different samples. 
-
-**Step 4)** Comparing the AMOA-SEQ curated ASV sequences to curated AMOA databases with Diamond blastx (Buchfink et al. 2021). Generating diamond blastx output files (every hits and best-hit): ````diamond.output.curateddb.AMOA-SEQ-curated.$organism.ASVs.tsv````, ````besthit.diamond.output.curateddb.AMOA-SEQ-curated.$organism.ASVs.tsv````
+**Step 4)** HHP pipeline to predict host from annotated genes. Banfield's group (3 times more..) . 
 
 
 ### Output directory and files
 ````
-{organism}.ASV-analysis # directory
+$output_directory/GENE_PREDICTION
 ````
-•	````out.DADA2.$organism.ASVs.track-summary.tsv````: DADA2 output summary containing quality control, denoising, number of merged sequences, number of chimeras in each sample. 
+•	````gene_aa_${base_name}.faa````: 
+•	````gene_nuc_${base_name}.fna````:  
+•	````Prodigal````: 
 
-•	````out.DADA2.$organism.ASVs.fa````: generated amplicon sequence variants (however, this file could contain the ambiguous sequences, thus not recommended to directly use this ASV file).
+````
+$output_directory/GENE_ANNOTATION
+````
+•	````nr.diamond.${base_name}.tsv````: 
+•	````best-hit-nr.diamond.${base_name}.tsv````: 
+•	````kaiju.out````: 
+•	````kaiju.names.out````: 
 
-•	````out.DADA2.$organism.ASVs.counts.tsv````: DADA2 ASV count table from different samples
+$output_directory/HOST_PREDICTION
+````
+•	````Homologs-based-host-prediction-phylum.txt````: 
+•	````Homologs-based-host-prediction-family.txt````: 
+•	````Homologs-based-host-prediction-genus.txt````:  
+•	````HPP_host_prediction.txt````: 
 
-•	````out.DADA2.correct-size.$organism.ASVs.fa````: selected ASVs according to expected amplicon size (option -t) 
 
 
 
