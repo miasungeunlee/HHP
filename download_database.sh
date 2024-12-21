@@ -4,14 +4,14 @@
 # Date: 20241221
 
 # Default values
-output_directory=""
+database_directory=""
 
 # Parse arguments
-while getopts "o:h" opt; do
+while getopts "d:h" opt; do
   case $opt in
-    o) output_directory="$OPTARG" ;; # Capture the output-directory path
+    d) database_directory="$OPTARG" ;; # Capture the database_directory path
     h)
-      echo "Usage: sh $0 -o /path/to/output-directory"
+      echo "Usage: sh $0 -d /path/to/database_directory"
       exit 0
       ;;
     *)
@@ -21,22 +21,22 @@ while getopts "o:h" opt; do
   esac
 done
 
-# Check if output_directory was provided
-if [[ -z "$output_directory" ]]; then
-  echo "Error: Output directory not provided. Use -o to specify it."
+# Check if database_directory was provided
+if [[ -z "$database_directory" ]]; then
+  echo "Error: Output directory not provided. Use -d to specify it."
   exit 1
 fi
 
 # Convert to absolute path
-output_directory=$(realpath "$output_directory")
+database_directory=$(realpath "$database_directory")
 
 # Ensure the output directory exists
-mkdir -p "$output_directory"
+mkdir -p "$database_directory"
 
 # Change to the output directory
-cd "$output_directory" || exit 1
+cd "$database_directory" || exit 1
 
-echo "Downloading and processing files in $output_directory"
+echo "Downloading and processing files in $database_directory"
 
 # Download the protein files
 wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/archaea/*protein.faa.gz
@@ -60,4 +60,4 @@ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 tar -xvf taxdump.tar.gz
 diamond makedb --in Refseq_nr_prokaryotes.faa --db Refseq_prokaryotes_all_proteins.dmnd --taxonmap prot.accession2taxid --taxonnodes nodes.dmp --taxonnames names.dmp
 
-echo "Download and processing complete. Files are saved in $output_directory"
+echo "Download and processing complete. Files are saved in $database_directory"
