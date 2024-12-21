@@ -21,12 +21,17 @@ pip install pandas
 ````
 git clone https://github.com/miasungeunlee/HHP.git
 cd HHP
-chmod u+x HHP.sh # make the script executable
+chmod u+x *.sh # make the script executable
 ````
 
 ## Download the Refseq prokaryotic protein sequence databases
 ````
-sh download_databases.sh -o /store/ampere/slee/HHP_database
+conda activate HHP
+sh download_database.sh [-d database_directory]
+````
+### Example of the test run sh download_database.sh:
+````
+sh download_database.sh -d /store/ampere/slee/HHP_database
 ````
 
 •	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created
@@ -35,6 +40,7 @@ sh download_databases.sh -o /store/ampere/slee/HHP_database
 
 •	````prot.accession2taxid````:
 
+
 ## Quick run
 ````
 conda activate HHP
@@ -42,16 +48,17 @@ sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o working_director
 
 ### option variable explanation ###
 -h: help
--i: fastq.gz file path (e.g. /home/ampere/slee/COMICON-Projet-2022/   # Full pathway for running Rscript) 
--d: database directory path (e.g. /home/ampere/slee/COMICON-Projet-2022/   # Full pathway 
--o: working & output directory name (e.g. output)
+-i: virus genome fasta file path (e.g. /store/ampere/slee/HPP/test-genomes   # Full pathway
+-d: database directory path (e.g. /store/ampere/slee/HHP_database   # Full pathway 
+-o: working & output directory name (e.g. HHP_output)
 -t: number of CPUs
 ````
 
 ### Example of the test run sh HHP.sh:
 ````
 conda activate HHP
-sh HHP.sh -i /store/ampere/gnicol/HPP/TEST-fasta/virus-contig.fasta -d /store/ampere/gnicol/test-database -o ouput_directory
+cd HHP # where the git clone is stored
+sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/ampere/slee/HHP_database -o HHP_output
 ````
 
 ### What does HHP.sh script do?
@@ -67,15 +74,6 @@ Generating annotated ASV sequences (nucleotide sequence, protein sequence) ````a
 
 **Step 4)** Comparing the AMOA-SEQ curated ASV sequences to curated AMOA databases with Diamond blastx (Buchfink et al. 2021). Generating diamond blastx output files (every hits and best-hit): ````diamond.output.curateddb.AMOA-SEQ-curated.$organism.ASVs.tsv````, ````besthit.diamond.output.curateddb.AMOA-SEQ-curated.$organism.ASVs.tsv````
 
-**Step 5)** Clustering the AMOA ASV sequences into OTUs ````AMOA-SEQ.$organism.OTUs.fa```` with 97% of sequence identity using CDHIT tool (Li et al. 2006) and generating OTU count table across different samples ````AMOA-SEQ.$organism.OTUs.counts.tsv```` and annotating OTUs with curated AMOA databases with Diamond blastx (Buchfink et al. 2021). Generating diamond blastx output files (every hits and best-hit): ````diamond.output.curateddb.AMOA-SEQ.$organism.OTUs.tsv````, ````besthit.diamond.output.curateddb.AMOA-SEQ.$organism.OTUs.tsv````
-
-**Step 6)** Translating the AMOA-SEQ curated ASV sequences to protein sequence variant (PSV) sequences ````AMOA-SEQ.$organism.PSVs.faa```` using Seqkit tool (Shen et al. 2016). Dereplicating the PSV sequences ````{organism}.PSV.faa````using CDHIT tool (Li et al. 2006)
-
-**Step 7)** Annotating the PSV sequences against curated AMOA database using BLASTp. Generating diamond blastx output files (every hits and best-hit): ````blastp.output.AMOA-SEQ.$organism.PSVs.tsv````, ````besthit.blastp.output.AMOA-SEQ.$organism.PSVs.tsv````
-
-**Step 8)** Aligning of the PSV sequences ````AMOA-SEQ.{organism}.PSVs.faa```` and curated AMOA sequences ````ref.{organism}.amoA.faa```` using MUSCLE (Edgar et al. 2004) and spurious sequences or poorly aligned regions were removed using trimAI (Capella-Gutiérrez · 2009). ````tree.$organism.trim.afa```` is used for generating phylogenetic tree ````tree.{organism}.nwk```` using FastTree (Price et al. 2009) and IQTree (Nguyen et al. 2015).
-
-
 
 ### Output directory and files
 ````
@@ -89,69 +87,6 @@ Generating annotated ASV sequences (nucleotide sequence, protein sequence) ````a
 
 •	````out.DADA2.correct-size.$organism.ASVs.fa````: selected ASVs according to expected amplicon size (option -t) 
 
-•	````out.DADA2.correct-size.$organism.ASVs.counts.tsv````: correct size ASV count table from different samples
-
-•	````annotated.DADA2.$organism.ASVs.fa````: DADA2 ASVs with correct size and matched to AMOA database. 
-
-•	````annotated.DADA2.$organism.ASVs.faa````: translated DADA2 ASVs with correct size and matched to AMOA database. 
-
-•	````AMOA-SEQ-curated.$organism.ASVs.fa````: Ambiguous sequences were removed using using the AMO databases and conserved protein sequence (those are confident and genuine AMOA sequences).
-
-•	````AMOA-SEQ-curated.$organism.ASVs.faa````: translated AMOA-SEQ curated ASVs. 
-
-•	````AMOA-SEQ-curated.$organism.ASVs.counts.tsv````: AMOA-SEQ curated ASV count table from different samples (recommanded to use this file for further bioinformatic analysis). 
-
-•	````diamond.output.DADA2.$organism.ASVs.tsv````: annotation of DADA2 ASVs using total AMOA database
-
-•	````besthit.diamond.output.DADA2.$organism.ASVs.tsv````: besthit of annoated ASVs using total AMOA database
-
-•	````diamond.output.curateddb.AMOA-SEQ-curated.$organism.ASVs.tsv````: annotation of AMOA-SEQ curated ASVs using curated AMOA database  
-
-•	````besthit.diamond.output.curateddb.AMOA-SEQ-curated.$organism.ASVs.tsv````: besthit of AMOA-SEQ curated ASVs using curated AMOA database  
-
-
-
-````
-{organism}.OTU-analysis # directory
-````
-•	````AMOA-SEQ.{organism}.OTUs.fa.clstr````: cd-hit clustering output file
-
-•	````AMOA-SEQ.{organism}.OTUs.fa````: generated OTU sequences
-
-•	````AMOA-SEQ.{organism}.OTUs.counts.tsv````: OTU count table from different samples
-
-•	````diamond.output.curateddb.AMOA-SEQ.{organism}.OTUs.tsv````: annotation of OTUs using curated AMOA database  
-
-•	````besthit.diamond.output.curateddb.AMOA-SEQ.{organism}.OTUs.tsv````: besthit of annoated OTUs using curated AMOA database  
-
-•	````AMOA-SEQ.{organism}.OTUs.taxa.tsv````: OTU taxa information 
-
-
-````
-{organism}.PSV-analysis # directory
-````
-
-•	````AMOA-SEQ.{organism}.PSVs.faa.clstr````: clustering of translated ASV sequences with 100% identity
-
-•	````AMOA-SEQ.{organism}.PSVs.faa````: Unique protein sequence variants
-
-•	````blastp.output.AMOA-SEQ.{organism}.PSVs.tsv````: (recommended for beta-diversity analysis (e.g. phylogenetic tree)): annotation of PSVs using curated AMOA database
-
-•	````besthit.blastp.output.AMOA-SEQ.{organism}.PSVs.tsv````: besthit of annotated PSVs using curated AMOA database 
-
-````
-{organism}.phylogeny-analysis # directory
-````
-
-•	````tree.{organism}.faa````: PSV sequences + curated AMOA sequence for phylogeny analysis
-
-•	````tree.{organism}.afa````: AMOA-aligments for each PSV and curated AMOA sequences using MUSCLE with -super5 option
-
-•	````tree.{organism}.trim.afa````: Ambiguous regions and gaps removed using trimal with -nogaps option
-
-•	````FastTree.{organism}.nwk````: AMOA phylogenetic tree generated using FastTREE file in Newick format  
-
-•	````IQTree.{organism}.treefile````: AMOA phylogenetic tree generated using IQTree file in Newick format 
 
 
 
