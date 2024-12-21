@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# Author: Mia Sungeun Lee (sungeun.lee@ec-lyon.fr)
+# Description: Concatenating the files into HPP_host_prediction.txt
+# Date: 20241221
 import pandas as pd
 
 # Define file paths
