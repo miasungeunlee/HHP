@@ -203,8 +203,11 @@ sed 's/sort-//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homolo
 sed 's/\.txt//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homologs-based-host-prediction-genus.txt
 rm New_* sort-*
 cp Homologs-based-host-prediction-genus.txt $working_directory
-cp Homologs-based-host-prediction-genus.txt $working_directory
 python $working_directory/concatenating_files.py
+cd $working_directory
+mkdir HOST_PREDICTION
+mv Homologs-based-host-prediction* ./HOST_PREDICTION
+mv HPP_host_prediction.txt ./HOST_PREDICTION
 
 echo "### STEP 4. Host prediction done ###"
 echo "### HPP Pipeline successfully finished :) ###"
