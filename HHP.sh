@@ -70,12 +70,17 @@ echo "==========================================================================
 echo "### STEP 0. Moving files into $working_directory working directory ###"
 echo "============================================================================================";
 mkdir $working_directory
+# Convert to full path
+working_directory=$(realpath "$working_directory")
+# Ensure the output directory exists
+mkdir -p "$working_directory"
 cp *.py $working_directory
 cp $input_fasta $working_directory
 cd $working_directory
 echo "### STEP 0. Done ###"
 echo "============================================================================================";
 #####################################################
+
 
 #####################################################
 echo "============================================================================================";
