@@ -31,7 +31,8 @@ sh download_database.sh [-d database_directory]
 ````
 ### Example of the test run sh download_database.sh:
 ````
-sh download_database.sh -d /store/ampere/slee/HHP_database
+conda activate HHP
+sh download_database.sh -d /store/ampere/slee/HHP_database # It takes 
 ````
 
 •	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created
