@@ -35,11 +35,11 @@ conda activate HHP
 sh download_database.sh -d /store/ampere/slee/HHP_database 
 ````
 
-•	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created
+•	````Refseq_prokaryotes_all_proteins.dmnd````: Refseq bacterial and archaeal proteins were downloaded from NCBI (https://www.ncbi.nlm.nih.gov/) and Diamond blastp database was created using a concatenated Refseq prokaryotic protein sequences. 
 
-•	````names.dmp & nodes.dmp````:
+•	````names.dmp & nodes.dmp````: NCBI Taxonomy Database.
 
-•	````prot.accession2taxid````:
+•	````prot.accession2taxid````: NCBI taxonomy database for mapping protein accession numbers to their corresponding taxonomic IDs (TaxIDs).
 
 
 ## Quick run
