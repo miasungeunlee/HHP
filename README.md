@@ -49,7 +49,7 @@ sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o output_directory
 
 ### option variable explanation ###
 -h: help
--i: virus genome fasta file path (e.g. /store/ampere/slee/HPP/test-genomes   # Full pathway
+-i: virus genome fasta file path (e.g. /store/ampere/slee/HPP/test-genomes/virus-contig.fasta   # Full pathway
 -d: database directory path (e.g. /store/ampere/slee/HHP_database   # Full pathway 
 -o: output_directory name (e.g. HHP_output)
 -t: number of CPUs
@@ -68,33 +68,33 @@ sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/am
 
 **Step 2)** Gene annotation using Diamond blastp against NCBI Refseq bacterial & archaeal proteins database in ````$output_directory/GENE_ANNOTATION```` .
 
-**Step 3)** Getting taxid from prot_accession number using prot_accession2taxid file and adding the taxonomic rank using Kaiju (XXX) in ````$output_directory/GENE_ANNOTATION````. 
+**Step 3)** Getting taxid from prot_accession number using prot_accession2taxid file and adding the taxonomic rank using Kaiju (Menzel et al. 2016) in ````$output_directory/GENE_ANNOTATION````. 
 
-**Step 4)** HHP pipeline to predict host from annotated genes. Banfield's group (3 times more..) . 
-
+**Step 4)** HHP pipeline for predicting the host from annotated genes. A homolog-based approach was performed as previously described (Al-Shayeb et al. 2020; Lee et al. 2022) with a host predicted as the phylum (family or genus) with ≥3x shared homologs compared to the second
+most dominant phylum.
 
 ### Output directory and files
 ````
 $output_directory/GENE_PREDICTION
 ````
-•	````gene_aa_${base_name}.faa````: 
-•	````gene_nuc_${base_name}.fna````:  
-•	````Prodigal````: 
+•	````gene_aa_${base_name}.faa````: Predicted amino acid sequences of ORFs (Open Reading Frames)
+•	````gene_nuc_${base_name}.fna````: Predicted nucleotide sequences of ORFs  
+•	````Prodigal````: Prodigal output file (GenBank-like format with detailed annotations for coding sequences (CDS))
 
 ````
 $output_directory/GENE_ANNOTATION
 ````
-•	````nr.diamond.${base_name}.tsv````: 
-•	````best-hit-nr.diamond.${base_name}.tsv````: 
-•	````kaiju.out````: 
-•	````kaiju.names.out````: 
+•	````nr.diamond.${base_name}.tsv````: Gene annotation against Refseq protein databases 
+•	````best-hit-nr.diamond.${base_name}.tsv````: Top alignment for annotated genes
+•	````kaiju.out````: Kaiju output format
+•	````kaiju.names.out````: Taxonomic ranks are added (e.g.,superkingdom, phylum, order, class, family, genus, species)
 
 $output_directory/HOST_PREDICTION
 ````
-•	````Homologs-based-host-prediction-phylum.txt````: 
-•	````Homologs-based-host-prediction-family.txt````: 
-•	````Homologs-based-host-prediction-genus.txt````:  
-•	````HPP_host_prediction.txt````: 
+•	````Homologs-based-host-prediction-phylum.txt````: The host of viral contigs at the phylum level was predicted. Corresponding homolog numbers have been added to the file.
+•	````Homologs-based-host-prediction-family.txt````: The host of viral contigs at the family level was predicted. Corresponding homolog numbers have been added to the file.
+•	````Homologs-based-host-prediction-genus.txt````: The host of viral contigs at the genus level was predicted. Corresponding homolog numbers have been added to the file.
+•	````HPP_host_prediction.txt````: A concatenated file of the phylum-, family-, and genus-level files.
 
 
 
