@@ -92,8 +92,11 @@ $output_directory/GENE_ANNOTATION
 $output_directory/HOST_PREDICTION
 ````
 •	````Homologs-based-host-prediction-phylum.txt````: The host of viral contigs at the phylum level was predicted. Corresponding homolog numbers have been added to the file.
+
 •	````Homologs-based-host-prediction-family.txt````: The host of viral contigs at the family level was predicted. Corresponding homolog numbers have been added to the file.
+
 •	````Homologs-based-host-prediction-genus.txt````: The host of viral contigs at the genus level was predicted. Corresponding homolog numbers have been added to the file.
+
 •	````HPP_host_prediction.txt````: A concatenated file of the phylum-, family-, and genus-level files.
 
 
