@@ -78,15 +78,20 @@ most dominant phylum.
 $output_directory/GENE_PREDICTION
 ````
 •	````gene_aa_${base_name}.faa````: Predicted amino acid sequences of ORFs (Open Reading Frames)
+
 •	````gene_nuc_${base_name}.fna````: Predicted nucleotide sequences of ORFs  
+
 •	````Prodigal````: Prodigal output file (GenBank-like format with detailed annotations for coding sequences (CDS))
 
 ````
 $output_directory/GENE_ANNOTATION
 ````
 •	````nr.diamond.${base_name}.tsv````: Gene annotation against Refseq protein databases 
+
 •	````best-hit-nr.diamond.${base_name}.tsv````: Top alignment for annotated genes
+
 •	````kaiju.out````: Kaiju output format
+
 •	````kaiju.names.out````: Taxonomic ranks are added (e.g.,superkingdom, phylum, order, class, family, genus, species)
 ````
 $output_directory/HOST_PREDICTION
