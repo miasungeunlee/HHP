@@ -111,7 +111,7 @@ awk '!x[$1]++' nr.diamond.${base_name}.tsv > best-hit-nr.diamond.${base_name}.ts
 mkdir GENE_PREDICTION
 mv gene_aa_${base_name}.faa ./GENE_PREDICTION
 mv gene_nuc_${base_name}.fna ./GENE_PREDICTION
-mv Prodigal ./GENE_PREDICTION
+#mv Prodigal ./GENE_PREDICTION
 
 echo "### STEP 2. Gene annotation done ###"
 echo "============================================================================================";
@@ -203,12 +203,13 @@ sed 's/sort-//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homolo
 sed 's/\.txt//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homologs-based-host-prediction-genus.txt
 rm New_* sort-*
 cp Homologs-based-host-prediction-genus.txt $working_directory
-python $working_directory/concatenating_files.py
+cp Homologs-based-host-prediction-genus.txt $working_directory
 cd $working_directory
+python $working_directory/concatenating_files.py
 mkdir HOST_PREDICTION
 mv Homologs-based-host-prediction* ./HOST_PREDICTION
-mv HPP_host_prediction.txt ./HOST_PREDICTION
+mv HHP_host_prediction.tsv ./HOST_PREDICTION
 
 echo "### STEP 4. Host prediction done ###"
-echo "### HPP Pipeline successfully finished :) ###"
+echo "### HHP Pipeline successfully finished :) ###"
 echo "============================================================================================";
