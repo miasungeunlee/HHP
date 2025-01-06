@@ -28,7 +28,7 @@ merged_df = merged_df[["Virus_ID", "Predicted_phylum", "Predicted_family", "Pred
 merged_df.fillna("NA", inplace=True)
 
 # Save the concatenated result to a new file
-output_file = "HPP_host_prediction.txt"
+output_file = "HHP_host_prediction.txt"
 merged_df.to_csv(output_file, sep="\t", index=False)
 
 print(f"Concatenated file saved to {output_file}")
