@@ -88,7 +88,7 @@ $output_directory/GENE_ANNOTATION
 •	````best-hit-nr.diamond.${base_name}.tsv````: Top alignment for annotated genes
 •	````kaiju.out````: Kaiju output format
 •	````kaiju.names.out````: Taxonomic ranks are added (e.g.,superkingdom, phylum, order, class, family, genus, species)
-
+````
 $output_directory/HOST_PREDICTION
 ````
 •	````Homologs-based-host-prediction-phylum.txt````: The host of viral contigs at the phylum level was predicted. Corresponding homolog numbers have been added to the file.
