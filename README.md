@@ -14,6 +14,7 @@
 ````
 conda create -y -n HHP -c bioconda kaiju prodigal diamond
 conda activate HHP
+conda install openssl=1.0.* -c conda-forge
 pip install pandas
 ````
 
@@ -45,13 +46,13 @@ sh download_database.sh -d /store/ampere/slee/HHP_database
 ## Quick run
 ````
 conda activate HHP
-sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o output_directory] [-t threads] 
+sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-w output_directory] [-t threads] 
 
 ### option variable explanation ###
 -h: help
 -i: virus genome fasta file path (e.g. /store/ampere/slee/HPP/test-genomes/virus-contig.fasta   # Full pathway
 -d: database directory path (e.g. /store/ampere/slee/HHP_database   # Full pathway 
--o: output_directory name (e.g. HHP_output)
+-w: output_directory name (e.g. HHP_output)
 -t: number of CPUs
 ````
 
@@ -59,7 +60,7 @@ sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-o output_directory
 ````
 conda activate HHP
 cd HHP # where the git clone is stored
-sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/ampere/slee/HHP_database -o HHP_output
+sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/ampere/slee/HHP_database -w HHP_output
 ````
 
 ### What does HHP.sh script do?
