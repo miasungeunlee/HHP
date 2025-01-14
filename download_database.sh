@@ -58,6 +58,6 @@ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 
 # Extract the taxonomy dump
 tar -xvf taxdump.tar.gz
-diamond makedb --in Refseq_nr_prokaryotes.faa --db Refseq_prokaryotes_all_proteins.dmnd --taxonmap prot.accession2taxid --taxonnodes nodes.dmp --taxonnames names.dmp
+diamond makedb --in Refseq_nr_prokaryotes.faa --db Refseq_prokaryotes_all_proteins.dmnd --taxonmap prot.accession2taxid --taxonnodes nodes.dmp
 
 echo "Download and processing complete. Files are saved in $database_directory"
