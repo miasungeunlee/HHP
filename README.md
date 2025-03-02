@@ -53,14 +53,14 @@ sh HHP.sh [-h help] [-i fasta_file] [-d database_directory] [-w output_directory
 -i: virus genome fasta file path (e.g. /store/ampere/slee/HPP/test-genomes/virus-contig.fasta   # Full pathway
 -d: database directory path (e.g. /store/ampere/slee/HHP_database   # Full pathway 
 -w: output_directory name (e.g. HHP_output)
--t: number of CPUs
+-t: number of CPUs (depending on your server)
 ````
 
 ### Example of the test run sh HHP.sh:
 ````
 conda activate HHP
 cd HHP # where the git clone is stored
-sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/ampere/slee/HHP_database -w HHP_output
+sh HHP.sh -i /store/ampere/slee/HPP/test-genomes/virus-contig.fasta -d /store/ampere/slee/HHP_database -t 32 -w HHP_output
 ````
 
 ### What does HHP.sh script do?
