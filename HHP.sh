@@ -105,7 +105,7 @@ echo "==========================================================================
 echo "============================================================================================";
 echo "### STEP 2. Gene annotation ###"
 
-diamond blastp --db $data_directory/$diamond_db_file --query gene_aa_${base_name}.faa --out nr.diamond.${base_name}.tsv --evalue 0.00001  --outfmt 6 qseqid sseqid sscinames pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle qlen slen qcovhsp --threads $threads
+diamond blastp --db $data_directory/$diamond_db_file --query gene_aa_${base_name}.faa --out nr.diamond.${base_name}.tsv --evalue 0.00001  --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle qlen slen qcovhsp --threads $threads
 awk '!x[$1]++' nr.diamond.${base_name}.tsv > best-hit-nr.diamond.${base_name}.tsv # best-hit #
 
 mkdir GENE_PREDICTION
