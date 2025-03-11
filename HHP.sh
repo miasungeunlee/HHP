@@ -121,7 +121,7 @@ echo "==========================================================================
 echo "============================================================================================";
 echo "### STEP 3. Adding the taxonomic rank using the prot_accession2taxid and Kaiju ###"
 cut -f1,2,12 best-hit-nr.diamond.${base_name}.tsv > prot_ids.tsv
-python $working_directory/prot.accession2taxid.py -t $data_directory/prot.accession2taxid -i prot_ids.tsv -o taxids.tsv
+python3 $working_directory/prot.accession2taxid.py -t $data_directory/prot.accession2taxid -i prot_ids.tsv -o taxids.tsv
 mkdir GENE_ANNOTATION
 mv nr.diamond.${base_name}.tsv ./GENE_ANNOTATION
 mv best-hit-nr.diamond.${base_name}.tsv ./GENE_ANNOTATION
@@ -148,10 +148,10 @@ mkdir tmps
 mv Virus-ID-kaiju.names.out ./tmps
 cd tmps
 ### Make a individual file for each virus contig ###
-python $working_directory/indiv.py -i Virus-ID-kaiju.names.out
-python $working_directory/process_files.py -i phylum
-python $working_directory/process_files.py -i family
-python $working_directory/process_files.py -i genus
+python3 $working_directory/indiv.py -i Virus-ID-kaiju.names.out
+python3 $working_directory/process_files.py -i phylum
+python3 $working_directory/process_files.py -i family
+python3 $working_directory/process_files.py -i genus
 awk -F '\t' '{print $1 "\t" $3 "\t" $2}' phylum-count > tmp && mv tmp phylum-count
 awk -F '\t' '{print $1 "\t" $3 "\t" $2}' genus-count > tmp && mv tmp genus-count
 awk -F '\t' '{print $1 "\t" $3 "\t" $2}' family-count > tmp && mv tmp family-count
@@ -167,10 +167,10 @@ mv genus-count ./tmps-genus
 ### extract two best hits and check three times or not (Banfield's lab threshold) ###
 cd tmps-phylum
 awk '{ if (++count[$1] <= 2) print $0 }' phylum-count > best-two-phylum-count
-python $working_directory/indiv.py -i best-two-phylum-count
+python3 $working_directory/indiv.py -i best-two-phylum-count
 find . -maxdepth 1 -type f -name 'sort*.txt' | sort > Name-list.txt
 sed 's/.\///g' Name-list.txt > tmp && mv tmp Name-list.txt
-python $working_directory/selection.py
+python3 $working_directory/selection.py
 cat New_* > Homologs-based-host-prediction-phylum.txt
 sed 's/sort-//g' Homologs-based-host-prediction-phylum.txt > tmp && mv tmp Homologs-based-host-prediction-phylum.txt
 sed 's/\.txt//g' Homologs-based-host-prediction-phylum.txt > tmp && mv tmp Homologs-based-host-prediction-phylum.txt
@@ -180,10 +180,10 @@ cd ..
 
 cd tmps-family
 awk '{ if (++count[$1] <= 2) print $0 }' family-count > best-two-family-count
-python $working_directory/indiv.py -i best-two-family-count
+python3 $working_directory/indiv.py -i best-two-family-count
 find . -maxdepth 1 -type f -name 'sort*.txt' | sort > Name-list.txt
 sed 's/.\///g' Name-list.txt > tmp && mv tmp Name-list.txt
-python $working_directory/selection.py
+python3 $working_directory/selection.py
 cat New_* > Homologs-based-host-prediction-family.txt
 sed 's/sort-//g' Homologs-based-host-prediction-family.txt > tmp && mv tmp Homologs-based-host-prediction-family.txt
 sed 's/\.txt//g' Homologs-based-host-prediction-family.txt > tmp && mv tmp Homologs-based-host-prediction-family.txt
@@ -194,10 +194,10 @@ cd ..
 cd tmps-genus
 ### extract two best hits and check three times or not (Banfield's lab threshold) ###
 awk '{ if (++count[$1] <= 2) print $0 }' genus-count > best-two-genus-count
-python $working_directory/indiv.py -i best-two-genus-count
+python3 $working_directory/indiv.py -i best-two-genus-count
 find . -maxdepth 1 -type f -name 'sort*.txt' | sort > Name-list.txt
 sed 's/.\///g' Name-list.txt > tmp && mv tmp Name-list.txt
-python $working_directory/selection.py
+python3 $working_directory/selection.py
 cat New_* > Homologs-based-host-prediction-genus.txt
 sed 's/sort-//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homologs-based-host-prediction-genus.txt
 sed 's/\.txt//g' Homologs-based-host-prediction-genus.txt > tmp && mv tmp Homologs-based-host-prediction-genus.txt
@@ -205,7 +205,7 @@ rm New_* sort-*
 cp Homologs-based-host-prediction-genus.txt $working_directory
 cp Homologs-based-host-prediction-genus.txt $working_directory
 cd $working_directory
-python $working_directory/concatenating_files.py
+python3 $working_directory/concatenating_files.py
 mkdir HOST_PREDICTION
 mv Homologs-based-host-prediction* ./HOST_PREDICTION
 mv HHP_host_prediction.tsv ./HOST_PREDICTION
